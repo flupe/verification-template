@@ -65,25 +65,25 @@ instance
   listSemigroup ._<>_ = concat
 {-# COMPILE AGDA2HS listSemigroup #-}
 
-{-
+-- HOWEVER, the Haskell records exported by agda2hs do not map 1 to 1 to Haskell's typeclasses.
+-- (See the Monoid, Applicative and Monad definitions, for example)
 
+-- One solution is to define the Haskell instance by hand:
+
+{-# FOREIGN AGDA2HS
+instance Monoid (List a) where
+  mempty  = Nil
+  mappend = concat
+#-}
+
+-- And then define the one used on the Agda side, without compiling it to Haskell.
 instance
   listMonoid : ∀ {a} → Monoid (List a)
   listMonoid {a} .mempty = Nil
-{-# COMPILE AGDA2HS listMonoid #-}
 
-instance
-  listApplicative : Applicative List
-  listApplicative .pure x = Cons x Nil
-  listApplicative ._<*>_ fs xs = concatMap (λ f → map f xs) fs
-{-# COMPILE AGDA2HS listApplicative  #-}
-
-instance
-  listMonad : Monad List
-  listMonad ._>>=_ x f = concatMap f x
-{-# COMPILE AGDA2HS listMonad #-}
-
--}
+-- That's not very nice as there is code duplication
+-- Another solution would be to ignore the agda2hs definition of Monad and write your own.
+-- Unclear for now, I'll raise an issue and keep you updated.
 
 
 -- PROVING PROPERTIES
