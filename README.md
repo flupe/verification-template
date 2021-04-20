@@ -46,3 +46,8 @@ make
 
 [Agda]:    https://github.com/agda/Agda
 [agda2hs]: https://github.com/agda/agda2hs
+
+## Typechecking the generated Haskell code
+
+To make sure that the generated Haskell code does typecheck, you can run `make haskell`.
+It simply launches `ghc -fno-code src/Project.hs`, you can modify this command for your purposes at will.
