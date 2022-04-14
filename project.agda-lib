@@ -1,3 +1,4 @@
 name: project
 depend: agda2hs
 include: src
+flags: --erase-record-parameters
