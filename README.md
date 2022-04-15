@@ -6,8 +6,8 @@ This template relies on a custom fork of both [agda2hs] and [Agda].
 To build them from source, do the following:
 
 ```
-git clone https://github.com/flupe/agda2hs-project
-cd agda2hs-project
+git clone https://github.com/flupe/verification-template
+cd verification-template
 cabal install Agda
 cabal install agda2hs
 ```
