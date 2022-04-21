@@ -1,5 +1,22 @@
 # Template for Practical Verification of Functional Libraries
 
+## Prerequisites:
+
+To use this template it is necessary to have cabal, ghc and make installed. If you don't have these installed you can follow the instructions below, else you can continue on to [here.](#dependencies)
+
+### For Windows (Using Chocolately):
+
+It is recommended that you install chocolately as a package manager that allows for installing software by using the built-in terminal in Windows.
+For the latest instruction on installing chocolately [click here](https://chocolatey.org/install#individual) and use the individual installation method.
+
+To install all prerequisites execute the following codes in your terminal:
+```
+choco install ghc cabal make
+refreshenv
+```
+
+Now you're good to go to for installing the dependencies.
+
 ## Dependencies
 
 This template relies on a custom fork of both [agda2hs] and [Agda].
@@ -8,8 +25,8 @@ To build them from source, do the following:
 ```
 git clone https://github.com/flupe/verification-template
 cd verification-template
-cabal install Agda
-cabal install agda2hs
+cabal install Agda # If there are conflicting dependencies for base use the following flag: --allow-newer=base
+cabal install agda2hs # If there are conflicting dependencies for base use the following flag: --allow-newer=base
 ```
 
 Building Agda may take a while.
@@ -22,18 +39,28 @@ Clone Jesper's fork of agda2hs:
 ```
 git clone -b erasure-annotations https://github.com/jespercockx/agda2hs
 ```
-
+### For Unix:
 Inside the file `~/.agda/libraries`, add the following line:
 
 ```
 /your/path/to/agda2hs/agda2hs.agda-lib
 ```
 
+### For Windows:
+Inside the file `C:\Users\<USER>\AppData\Roaming\agda\libraries`, add the following line:
+
+
+```
+/your/path/to/agda2hs/agda2hs.agda-lib
+```
+
+<br>
+
 You're all set!
 
 ## Development
 
-You should be good to go. Open any file in the `src/` directory inside emacs and
+You should be good to go. Open any file in the `src/` directory inside your IDE of choice and
 you should be able to use the Haskell prelude in your code without any issue.
 
 Running `make` at the root of the project will:
