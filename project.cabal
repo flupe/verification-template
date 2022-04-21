@@ -7,8 +7,7 @@ library
   default-language: Haskell2010
   hs-source-dirs:   lib
   build-depends:    base >= 4.11 && < 5
-  exposed-modules: Data.Tree
-  autogen-modules:  Data.Tree
+  exposed-modules:  Data.Tree
 
 executable demo
   hs-source-dirs:   demo
