@@ -47,11 +47,23 @@ Inside the file `~/.agda/libraries`, add the following line:
 ```
 
 ### For Windows:
-Inside the file `C:\Users\<USER>\AppData\Roaming\agda\libraries`, add the following line:
 
+First off execute the following command:
 
 ```
-/your/path/to/agda2hs/agda2hs.agda-lib
+(test-path -path $home\AppData\Roaming\agda\libraries -pathtype Leaf) ? (echo "File not created, it already exists") : (new-item -path $home\AppData\Roaming\agda\libraries)
+```
+
+Either add the following line to `C:\Users\<USER>\AppData\Roaming\agda\libraries` or alternatively when using powershell `$home\AppData\Roaming\agda\libraries`, 
+
+```
+</your/path/to/agda2hs/agda2hs.agda-lib>
+```
+
+Or run the following command in powershell:
+
+```
+add-content $home\AppData\Roaming\agda\libraries "`n</your/path/to/agda2hs/agda2hs.agda-lib>"
 ```
 
 <br>
