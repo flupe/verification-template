@@ -3,11 +3,11 @@ allow-newer: base
 
 source-repository-package
         type: git
-        location: https://github.com/jespercockx/agda
-        tag: 0a7040555f1d4e60b434afe4a60aaaa8747d35ce
+        location: https://github.com/agda/agda
+        tag: a90e75e906b731722e2e09c8ea18ea0f8dba1f27
 
 source-repository-package
         type: git
-        location: https://github.com/jespercockx/agda2hs
-        tag: a1af67414851a6e9d714c5e7e71e69bf5d60a41f
+        location: https://github.com/agda/agda2hs
+        tag: f6d2f92848cf4a452e2354a93eaafe906357709a
 
