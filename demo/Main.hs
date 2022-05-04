@@ -1,4 +1,5 @@
 import qualified Data.Tree as Tree
+import qualified Data.SimpleList
 
 main :: IO ()
-main = print $ Tree.fromList [5, 3, 8, 7, 1]
+main = print $ 10 :: (20 :: (30 :: []))
