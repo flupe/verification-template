@@ -1,16 +1,26 @@
-
 {-# OPTIONS --guardedness #-}
 module Data.InfiniteList where
 
-record InfiniteList (@0 A : Set) : Set where
+open import Data.Nat
+
+record InfiniteList (a : Set) : Set where
     coinductive
     field
-        hd : A
-        tl : InfiniteList A
-{-# COMPILE AGDA2HS InfiniteList deriving Show #-}
+        hd : a
+        tl : InfiniteList a
+{-# COMPILE AGDA2HS InfiniteList #-}
 
 open InfiniteList public
 
-headOfInf : {@0 A : Set} → InfiniteList A → A
-headOfInf input = hd input
-{-# COMPILE AGDA2HS headOfInf #-}
+headOfInf  : {a : Set} → InfiniteList a → a
+headOfInf e = (hd e)
+{-# COMPILE AGDA2HS headOfInf #-} 
+
+_!!!_ : {a : Set} → InfiniteList a → Nat → a
+_!!!_ list Zero = (hd list) 
+_!!!_ list (Suc n) = (tl list) !!! n
+{-# COMPILE AGDA2HS _!!!_ #-}
+
+_range_ : {a : Set} → InfiniteList a → Nat → a
+_range_ list Zero = {!   !}
+_range_ list (Suc n) = {!   !}
