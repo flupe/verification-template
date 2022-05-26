@@ -17,7 +17,27 @@ record InfiniteList (a : Set) : Set where
 
 open InfiniteList public
 
+
+--Helpers
+record _×_ (a b : Set) : Set where
+      inductive
+      constructor _,_
+      field
+        fst : a
+        snd : b
+
+open _×_
+
+record _≈_ {a} (xs : InfiniteList a) (ys : InfiniteList a) : Set where
+      coinductive
+      field
+        hd-≡ : hd xs ≡ hd ys
+        tl-≈ : tl xs ≈ tl ys
+
+open _≈_
+
 -- Special co-pattern constructors
+-- Add to your report that copatterns need to be translated but Haskell doesn't support it so a translation needs to be done.
 
 infNatList : Nat → InfiniteList Nat
 hd (infNatList n) = n 
@@ -60,8 +80,32 @@ dropInf list (Suc n) = dropInf (tlInf list) n
 {-# COMPILE AGDA2HS dropInf #-}
 
 -- Higher order functions
+even : ∀ {a} → InfiniteList a → InfiniteList a
+hd (even xs) = hd xs
+tl (even xs) = even (tl (tl xs)) 
+{-# COMPILE AGDA2HS even #-}
+
+
+odd : ∀ {a} → InfiniteList a → InfiniteList a 
+odd xs = even (tl xs)
+{-# COMPILE AGDA2HS odd #-}
+
+split : ∀ {a} → InfiniteList a × InfiniteList a 
+split xs = even xs , odd xs
+{-# COMPILE AGDA2HS split #-}
+
+merge : ∀ {a} → InfiniteList a × InfiniteList a → InfiniteList a
+hd (merge (xs , ys)) = hd xs
+tl (merge (xs , ys)) = merge (ys , tl xs) 
+{-# COMPILE AGDA2HS merge #-}
+
+merge-split-id : ∀ {a} (list : InfiniteList a) → merge (split list) ≈ list
+hd-≡ (merge-split-id _) = refl
+tl-≈ (merge-split-id list) = merge-split-id (tl list)
+
 -- _map_ : {a : Set} → (a → a) → InfiniteList a → InfiniteList a
 -- list map f = {!   !}
+
 
 -- To implement: Bind, Map, Filter
 -- Implement a prime infinite, or fibonacci infinite
