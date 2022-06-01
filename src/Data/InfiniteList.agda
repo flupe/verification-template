@@ -90,8 +90,9 @@ hd (merge (xs , ys)) = hd xs
 tl (merge (xs , ys)) = merge (ys , tl xs) 
 {-# COMPILE AGDA2HS merge #-}
 
--- _map_ : {a b : Set} → (a → b) → InfiniteList a → InfiniteList b
--- list map f = {!   !}
+map : {a b : Set} → InfiniteList a → (a → b) → InfiniteList b
+hd (map list f) = f (hd list)
+tl (map list f) = map list f
 
 -- To implement: Bind, Map, Filter
 -- Implement a prime infinite, or fibonacci infinite
