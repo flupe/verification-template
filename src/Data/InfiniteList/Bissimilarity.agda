@@ -20,6 +20,12 @@ open _≈_
 
 drop-head-bissimular-tail-head : ∀ {a} (list : InfiniteList a) → hdInf(dropInf list (Suc Zero)) ≡ hdInf(tlInf list)
 drop-head-bissimular-tail-head _ = refl
+
+tail-head-bissimular-index : ∀ {a} (list : InfiniteList a) → hdInf(tlInf (tlInf (tlInf (tlInf list)))) ≡ list !!! Suc (Suc (Suc (Suc Zero)))
+tail-head-bissimular-index _ = refl
+
+tail-head-bissimular-take-index : ∀ {a} (list : InfiniteList a) → hdInf(tlInf (tlInf list)) ≡ takeInf list (Suc (Suc (Suc (Suc (Suc Zero))))) !!! Suc (Suc Zero)
+tail-head-bissimular-take-index _ = refl
 -- Bissimilarity for higher order functions
 
 merge-bissimular-split : ∀ {a} (list : InfiniteList a) → merge (split list) ≈ list
