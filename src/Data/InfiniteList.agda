@@ -28,14 +28,6 @@ record _×_ (a b : Set) : Set where
 
 open _×_
 
-record _≈_ {a} (xs : InfiniteList a) (ys : InfiniteList a) : Set where
-      coinductive
-      field
-        hd-≡ : hd xs ≡ hd ys
-        tl-≈ : tl xs ≈ tl ys
-
-open _≈_
-
 -- Special co-pattern constructors
 -- Add to your report that copatterns need to be translated but Haskell doesn't support it so a translation needs to be done.
 
@@ -85,12 +77,11 @@ hd (even xs) = hd xs
 tl (even xs) = even (tl (tl xs)) 
 {-# COMPILE AGDA2HS even #-}
 
-
 odd : ∀ {a} → InfiniteList a → InfiniteList a 
 odd xs = even (tl xs)
 {-# COMPILE AGDA2HS odd #-}
 
-split : ∀ {a} → InfiniteList a × InfiniteList a 
+split : ∀ {a} → InfiniteList a → InfiniteList a × InfiniteList a 
 split xs = even xs , odd xs
 {-# COMPILE AGDA2HS split #-}
 
@@ -99,13 +90,8 @@ hd (merge (xs , ys)) = hd xs
 tl (merge (xs , ys)) = merge (ys , tl xs) 
 {-# COMPILE AGDA2HS merge #-}
 
-merge-split-id : ∀ {a} (list : InfiniteList a) → merge (split list) ≈ list
-hd-≡ (merge-split-id _) = refl
-tl-≈ (merge-split-id list) = merge-split-id (tl list)
-
--- _map_ : {a : Set} → (a → a) → InfiniteList a → InfiniteList a
+-- _map_ : {a b : Set} → (a → b) → InfiniteList a → InfiniteList b
 -- list map f = {!   !}
-
 
 -- To implement: Bind, Map, Filter
 -- Implement a prime infinite, or fibonacci infinite
