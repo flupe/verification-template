@@ -2,6 +2,7 @@
 module Data.InfiniteList where
 
 open import Haskell.Prim
+open import Haskell.Prim.Tuple
 
 open import Data.Nat
 {-# FOREIGN AGDA2HS
@@ -16,17 +17,6 @@ record InfiniteList (a : Set) : Set where
 {-# COMPILE AGDA2HS InfiniteList #-}
 
 open InfiniteList public
-
-
---Helpers
-record _×_ (a b : Set) : Set where
-      inductive
-      constructor _,_
-      field
-        fst : a
-        snd : b
-
-open _×_
 
 -- Special co-pattern constructors
 -- Add to your report that copatterns need to be translated but Haskell doesn't support it so a translation needs to be done.
@@ -72,20 +62,20 @@ dropInf list (Suc n) = dropInf (tlInf list) n
 {-# COMPILE AGDA2HS dropInf #-}
 
 -- Higher order functions
-even : ∀ {a} → InfiniteList a → InfiniteList a
+even : {a : Set} → InfiniteList a → InfiniteList a
 hd (even xs) = hd xs
 tl (even xs) = even (tl (tl xs)) 
 {-# COMPILE AGDA2HS even #-}
 
-odd : ∀ {a} → InfiniteList a → InfiniteList a 
+odd : {a : Set} → InfiniteList a → InfiniteList a 
 odd xs = even (tl xs)
 {-# COMPILE AGDA2HS odd #-}
 
-split : ∀ {a} → InfiniteList a → InfiniteList a × InfiniteList a 
+split : {a : Set} → InfiniteList a → InfiniteList a × InfiniteList a 
 split xs = even xs , odd xs
 {-# COMPILE AGDA2HS split #-}
 
-merge : ∀ {a} → InfiniteList a × InfiniteList a → InfiniteList a
+merge : {a : Set} → InfiniteList a × InfiniteList a → InfiniteList a
 hd (merge (xs , ys)) = hd xs
 tl (merge (xs , ys)) = merge (ys , tl xs) 
 {-# COMPILE AGDA2HS merge #-}
