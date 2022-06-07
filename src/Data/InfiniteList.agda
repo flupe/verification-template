@@ -71,8 +71,8 @@ odd : {a : Set} → InfiniteList a → InfiniteList a
 odd xs = even (tl xs)
 {-# COMPILE AGDA2HS odd #-}
 
-split : {a : Set} → InfiniteList a → InfiniteList a × InfiniteList a 
-split xs = even xs , odd xs
+split : {a : Set} → InfiniteList a → InfiniteList a × InfiniteList a
+split xs = (even xs , odd xs)
 {-# COMPILE AGDA2HS split #-}
 
 merge : {a : Set} → InfiniteList a × InfiniteList a → InfiniteList a
@@ -86,4 +86,4 @@ tl (map list f) = map list f
 
 -- To implement: Bind, Map, Filter
 -- Implement a prime infinite, or fibonacci infinite
--- Try other high order functions on lists
+-- Try other high order functions on lists 

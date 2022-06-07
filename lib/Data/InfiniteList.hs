@@ -42,4 +42,11 @@ even xs Data.InfiniteList.InfiniteList.tl = even (tl (tl xs))
 odd :: InfiniteList a -> InfiniteList a
 odd xs = even (tl xs)
 
-split :: InfiniteList a -> (
+split :: InfiniteList a -> (InfiniteList a, InfiniteList a)
+split xs = (even xs, odd xs)
+
+merge :: (InfiniteList a, InfiniteList a) -> InfiniteList a
+merge (xs, ys) Data.InfiniteList.InfiniteList.hd = hd xs
+merge (xs, ys) Data.InfiniteList.InfiniteList.tl
+  = merge (ys, tl xs)
+
