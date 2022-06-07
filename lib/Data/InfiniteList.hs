@@ -35,3 +35,11 @@ dropInf :: InfiniteList a -> Nat -> InfiniteList a
 dropInf list Zero = list
 dropInf list (Suc n) = dropInf (tlInf list) n
 
+even :: InfiniteList a -> InfiniteList a
+even xs Data.InfiniteList.InfiniteList.hd = hd xs
+even xs Data.InfiniteList.InfiniteList.tl = even (tl (tl xs))
+
+odd :: InfiniteList a -> InfiniteList a
+odd xs = even (tl xs)
+
+split :: InfiniteList a -> (
