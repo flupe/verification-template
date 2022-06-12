@@ -84,6 +84,14 @@ map : {a b : Set} → InfiniteList a → (a → b) → InfiniteList b
 hd (map list f) = f (hd list)
 tl (map list f) = map list f
 
--- To implement: Bind, Map, Filter
--- Implement a prime infinite, or fibonacci infinite
--- Try other high order functions on lists 
+
+-- Filter is not well defined for InfiniteList, it might be the case that it never returns something.
+-- cofilter : {a : Set} → (a → Bool) → InfiniteList a → InfiniteList a
+
+-- filter : {a : Set} → (a → Bool) → InfiniteList a → InfiniteList a
+-- filter pred xs with (pred (hd xs))
+-- filter pred xs | True = cofilter pred (tl xs)
+-- filter pred xs | False = filter pred (tl xs)
+
+-- hd (cofilter pred xs) = hd xs
+-- tl (cofilter pred xs) = filter pred (tl xs)
