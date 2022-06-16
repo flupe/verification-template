@@ -75,14 +75,14 @@ oddInf xs = evenInf (tl xs)
 
 splitInf : {a : Set} → InfiniteList a → InfiniteList a × InfiniteList a
 splitInf xs = (evenInf xs , oddInf xs)
--- {-# COMPILE AGDA2HS split #-}
+-- {-# COMPILE AGDA2HS splitInf #-}
 
 mergeInf : {a : Set} → InfiniteList a × InfiniteList a → InfiniteList a
 hd (mergeInf (xs , ys)) = hd xs
 tl (mergeInf (xs , ys)) = mergeInf (ys , tl xs) 
--- {-# COMPILE AGDA2HS merge #-}
+-- {-# COMPILE AGDA2HS mergeInf #-}
 
 mapInf : {a b : Set} → InfiniteList a → (a → b) → InfiniteList b
 hd (mapInf list f) = f (hd list)
 tl (mapInf list f) = mapInf list f
--- {-# COMPILE AGDA2HS map #-}
+-- {-# COMPILE AGDA2HS mapInf #-}
