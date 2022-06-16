@@ -1,11 +1,13 @@
 module Data.Delay where
 
+import Data.Thunk
+
 import Data.Nat
 
-data Delay a = now a
-             | later (Thunk (Delay a))
+data Delay a = Now a
+             | Later (Thunk (Delay a))
 
 traverseOne :: Delay a -> Delay a
-traverseOne (now x) = now x
-traverseOne (later x) = force x
+traverseOne (Now x) = Now x
+traverseOne (Later x) = force x
 

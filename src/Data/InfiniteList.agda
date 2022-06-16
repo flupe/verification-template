@@ -19,22 +19,22 @@ record InfiniteList (a : Set) : Set where
 open InfiniteList public
 
 -- Special co-pattern constructors
--- Add to your report that copatterns need to be translated but Haskell doesn't support it so a translation needs to be done.
+-- Copatterns compile pragmas are commented out because they are unsupported
 
 infNatList : Nat → InfiniteList Nat
 hd (infNatList n) = n 
 tl (infNatList n) = (infNatList (Suc n)) 
-{-# COMPILE AGDA2HS infNatList #-}
+-- {-# COMPILE AGDA2HS infNatList #-}
 
 repeatInf : {a : Set} (x : a) → InfiniteList a
 hd (repeatInf x) = x
 tl (repeatInf x) = repeatInf x
-{-# COMPILE AGDA2HS repeatInf #-}
+-- {-# COMPILE AGDA2HS repeatInf #-}
 
 fibonacci : Nat → Nat → InfiniteList Nat
 hd (fibonacci n1 n2) = n1
 tl (fibonacci n1 n2) = (fibonacci (n2) (n1 +++ n2))
-{-# COMPILE AGDA2HS fibonacci #-}
+-- {-# COMPILE AGDA2HS fibonacci #-}
 
 -- Basic functions
 
@@ -51,47 +51,38 @@ list !!! Zero = hdInf list
 list !!! Suc n = (tlInf list) !!! n 
 {-# COMPILE AGDA2HS _!!!_ #-}
 
-takeInf : {a : Set} -> InfiniteList a → Nat → List a
-takeInf list Zero = []
-takeInf list (Suc n) = (hdInf list) ∷ (takeInf (tlInf list) n)
+takeInf : {a : Set} → Nat → InfiniteList a → List a
+takeInf Zero list = []
+takeInf (Suc n) list = (hdInf list) ∷ (takeInf n (tlInf list))
 {-# COMPILE AGDA2HS takeInf #-}
 
-dropInf : {a : Set} → InfiniteList a → Nat → InfiniteList a
-dropInf list Zero = list
-dropInf list (Suc n) = dropInf (tlInf list) n
+dropInf : {a : Set} → Nat → InfiniteList a → InfiniteList a
+dropInf Zero list = list
+dropInf (Suc n) list = dropInf n (tlInf list)
 {-# COMPILE AGDA2HS dropInf #-}
 
 -- Higher order functions
-even : {a : Set} → InfiniteList a → InfiniteList a
-hd (even xs) = hd xs
-tl (even xs) = even (tl (tl xs)) 
-{-# COMPILE AGDA2HS even #-}
+-- Copatterns compile pragmas are commented out because they are unsupported
 
-odd : {a : Set} → InfiniteList a → InfiniteList a 
-odd xs = even (tl xs)
-{-# COMPILE AGDA2HS odd #-}
+evenInf : {a : Set} → InfiniteList a → InfiniteList a
+hd (evenInf xs) = hd xs
+tl (evenInf xs) = evenInf (tl (tl xs)) 
+-- {-# COMPILE AGDA2HS evenInf #-}
 
-split : {a : Set} → InfiniteList a → InfiniteList a × InfiniteList a
-split xs = (even xs , odd xs)
-{-# COMPILE AGDA2HS split #-}
+oddInf : {a : Set} → InfiniteList a → InfiniteList a 
+oddInf xs = evenInf (tl xs)
+-- {-# COMPILE AGDA2HS oddInf #-}
 
-merge : {a : Set} → InfiniteList a × InfiniteList a → InfiniteList a
-hd (merge (xs , ys)) = hd xs
-tl (merge (xs , ys)) = merge (ys , tl xs) 
-{-# COMPILE AGDA2HS merge #-}
+splitInf : {a : Set} → InfiniteList a → InfiniteList a × InfiniteList a
+splitInf xs = (evenInf xs , oddInf xs)
+-- {-# COMPILE AGDA2HS split #-}
 
-map : {a b : Set} → InfiniteList a → (a → b) → InfiniteList b
-hd (map list f) = f (hd list)
-tl (map list f) = map list f
+mergeInf : {a : Set} → InfiniteList a × InfiniteList a → InfiniteList a
+hd (mergeInf (xs , ys)) = hd xs
+tl (mergeInf (xs , ys)) = mergeInf (ys , tl xs) 
+-- {-# COMPILE AGDA2HS merge #-}
 
-
--- Filter is not well defined for InfiniteList, it might be the case that it never returns something.
--- cofilter : {a : Set} → (a → Bool) → InfiniteList a → InfiniteList a
-
--- filter : {a : Set} → (a → Bool) → InfiniteList a → InfiniteList a
--- filter pred xs with (pred (hd xs))
--- filter pred xs | True = cofilter pred (tl xs)
--- filter pred xs | False = filter pred (tl xs)
-
--- hd (cofilter pred xs) = hd xs
--- tl (cofilter pred xs) = filter pred (tl xs)
+mapInf : {a b : Set} → InfiniteList a → (a → b) → InfiniteList b
+hd (mapInf list f) = f (hd list)
+tl (mapInf list f) = mapInf list f
+-- {-# COMPILE AGDA2HS map #-}
